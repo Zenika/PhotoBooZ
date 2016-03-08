@@ -17,8 +17,6 @@
 	                       navigator.mozGetUserMedia ||
 	                       navigator.msGetUserMedia);
 
-
-
 	if (navigator.getUserMedia) {
 		navigator.getUserMedia({audio:false, video:true}, function(stream) {
 	    	video.src = window.URL.createObjectURL(stream);
@@ -30,13 +28,13 @@
 		requestAnimationFrame(writeSourceToCanvas);
 
 		contextSource.drawImage(video, 0, 0, video.width, video.height);
-		var transparentBackgroundData = replaceColorByTransparent(contextSource, video.width, video.height);
+		var transparentBackgroundData = replaceColorByTransparent(contextSource);
 
 		contextTransparent.putImageData(transparentBackgroundData, 0, 0);
 	}
 
-	function replaceColorByTransparent(source, width, height) {
-		var sourceData = source.getImageData(0, 0, width, height);
+	function replaceColorByTransparent(source) {
+		var sourceData = source.getImageData(0, 0, video.width, video.width);
 		var data = sourceData.data;
 
 		for(var i=0; i<data.length; i+=4) {
@@ -57,6 +55,34 @@
 		}
 
 		return sourceData;
+	}
+
+	function snapshotCamera() {
+
+
+		var canvas = document.createElement('canvas');
+		canvas.width = video.width;
+		canvas.height = video.height;
+		var context = canvas.getContext('2d');
+
+		var img = new Image();
+		img.onload  = function() {
+			context.drawImage(document.getElementById('background'), 0, 0, video.width, video.height);
+			context.drawImage(img, 0, 0, video.width, video.height);
+
+			var data = canvas.toDataURL('image/png');
+			fetch('http://localhost:8081/image', {
+				method: 'post',
+				headers: {
+				    'Accept': 'application/json',
+			    	'Content-Type': 'application/json'
+			  	},
+				body: JSON.stringify({
+					image: data
+				})
+			});
+		};
+		img.src = canvasTransparent.toDataURL('image/png');
 	}
 
 
@@ -82,4 +108,8 @@
 			document.getElementById('background').src = evt.target.src;
 		});
 	}
+
+	document.getElementById('takePicture').addEventListener('click', function(evt) {
+		snapshotCamera();
+	});
 })();

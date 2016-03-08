@@ -2,5 +2,6 @@
 
 #toleranceSelector {position: absolute; bottom: 50px;}
 #imageSelector {position: absolute; right: 50px;}
+#takePicture {position: absolute; bottom: 100px;}
 
 ul li {list-style-type: none;}
