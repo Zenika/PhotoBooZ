@@ -1,0 +1,6 @@
+#background, #canvas-transparent  {position: absolute; top: 10px; left: 10px;}
+
+#toleranceSelector {position: absolute; bottom: 50px;}
+#imageSelector {position: absolute; right: 50px;}
+
+ul li {list-style-type: none;}

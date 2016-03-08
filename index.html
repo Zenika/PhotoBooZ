@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<link href="global.css" rel="stylesheet" />
+	<title>Photomaton</title>
+</head>
+<body>	
+	
+	<video id="webcam" autoplay width="640" height="480" style="display: none;"></video>
+	
+	<canvas id="canvas-source" width="640" height="480" style="display: none;"></canvas>
+
+	<img src="jungle.jpg" id="background" width="640" height="480" />
+	<canvas id="canvas-transparent" width="640" height="480"></canvas>
+
+
+	<div id="toleranceSelector">
+		<label for="tolerance">Tolérance</label>
+		<input id="tolerance" type="range" value="70" min="0" max="255" step="1" />
+	</div>
+
+	<ul id="imageSelector">
+		<li><img src="jungle.jpg" width="320" height="240" /></li>
+		<li><img src="desert.jpg" width="320" height="240" /></li>
+	</ul>
+	
+
+	<script type="text/javascript" src="js/camera.js"></script>
+</body>
+</html>
