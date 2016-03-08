@@ -1,1 +1,1 @@
-# ZPhotomaton
+# PhotoBooz by Zenika
