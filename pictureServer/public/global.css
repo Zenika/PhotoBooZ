@@ -1,2 +1,11 @@
-.container {margin: 0 auto; width: 640px;}
-#lastPicture {margin: 0 auto; border: 3px solid #F2F2F2;}
+@font-face {
+    font-family: "AlexBrush";
+    src: url('AlexBrush-Regular.ttf');
+}
+
+html, body {height: 100%;}
+body {color: #fff; background: #D7D7D7; margin: 0;}
+h1 {margin: 0; font-family: "AlexBrush"; font-size: 50px; padding: 20px 0 10px;}
+h2 {margin: 0; font-family: "AlexBrush"; font-size: 20px; padding: 20px 0 10px;}
+.container {text-align: center; margin: 0 auto; width: 660px; height: 100%; background: #000;}
+#lastPicture {background: #fff; margin: 0 auto;}
