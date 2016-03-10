@@ -81,6 +81,7 @@
 					image: data
 				})
 			});
+			document.getElementById('takePicture').disabled = false;
 		};
 		img.src = canvasTransparent.toDataURL('image/png');
 	}
@@ -110,6 +111,7 @@
 	}
 
 	document.getElementById('takePicture').addEventListener('click', function(evt) {
-		snapshotCamera();
+		document.getElementById('takePicture').disabled = true;
+		setTimeout(snapshotCamera, 5000);
 	});
 })();
