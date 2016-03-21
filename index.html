@@ -6,14 +6,14 @@
 	<link href="global.css" rel="stylesheet" />
 	<title>Photomaton</title>
 </head>
-<body>	
-	
-	<video id="webcam" autoplay width="640" height="480" style="display: none;"></video>
-	
-	<canvas id="canvas-source" width="640" height="480" style="display: none;"></canvas>
+<body>
 
-	<img src="jungle.jpg" id="background" width="640" height="480" />
-	<canvas id="canvas-transparent" width="640" height="480"></canvas>
+	<video id="webcam" autoplay width="1024" height="768" style="display: none;"></video>
+
+	<canvas id="canvas-source" width="1024" height="768" style="display: none;"></canvas>
+
+	<img src="jungle.jpg" id="background" width="1024" height="768" />
+	<canvas id="canvas-transparent" width="1024" height="768"></canvas>
 
 
 	<div id="toleranceSelector">
@@ -28,7 +28,7 @@
 	</ul>
 
 	<button id="takePicture">Photo</button>
-	
+
 
 	<script src="node_modules/blob-util/dist/blob-util.min.js"></script>
 	<script type="text/javascript" src="js/camera.js"></script>

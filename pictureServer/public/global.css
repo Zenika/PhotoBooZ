@@ -4,8 +4,12 @@
 }
 
 html, body {height: 100%;}
-body {color: #fff; background: #D7D7D7; margin: 0;}
+body {color: #fff; background: #D7D7D7; margin: 0;padding: 0}
 h1 {margin: 0; font-family: "AlexBrush"; font-size: 50px; padding: 20px 0 10px;}
 h2 {margin: 0; font-family: "AlexBrush"; font-size: 20px; padding: 20px 0 10px;}
-.container {text-align: center; margin: 0 auto; width: 660px; height: 100%; background: #000;}
-#lastPicture {background: #fff; margin: 0 auto;}
+.container { margin: 0; padding: 0; }
+.display {text-align: center; width: 1024px; height: 100%; background: #000; float: left;  margin: 0 10px 0 0;}
+.slideshow { height: 100%}
+.slideshow ul { list-style-type: none; overflow: hidden;}
+.slideshow img { width: 23%; height: 23%; float: left; display: inline-block; margin: 5px; }
+#selectedPicture {background: #fff; margin: 0 auto;}

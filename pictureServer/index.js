@@ -5,13 +5,13 @@ var app = express();
 
 var clientId = 0;
 var clients = {};
-
+var images = fs.readdirSync('./public/pictures/');
 
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-      
+
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
       res.sendStatus(200);
@@ -41,7 +41,16 @@ app.get('/stream', function(req, res) {
     })(++clientId)
 });
 
-app.post('/image', function(req, res) {
+app.get('/images', function(req, res) {
+
+  res.send(JSON.stringify(
+    images.map(function(img) {
+      return "/pictures/"+img;
+    })
+  ));
+});
+
+app.post('/images', function(req, res) {
 
 	if (!req.body.image) {
 		res.sendStatus(400);
@@ -49,7 +58,7 @@ app.post('/image', function(req, res) {
 	}
 
 	var now = new Date();
-	var fileName = 'photo-' + now.getFullYear() + "-"+ now.getMonth() + "-" + now.getDate() + '-' 
+	var fileName = 'photo-' + now.getFullYear() + "-"+ now.getMonth() + "-" + now.getDate() + '-'
 		+ now.getHours() + '-' + now.getMinutes() + '-' + now.getSeconds() + '.png';
 
 	req.body.image = req.body.image.replace(/^data:image\/\w+;base64,/, "");
@@ -63,10 +72,12 @@ app.post('/image', function(req, res) {
 
 		res.sendStatus(201);
 
+    images.push(fileName);
+
 		for (clientId in clients) {
 			clients[clientId].write('data: pictures/'+ fileName + "\n\n"); // <- Push a message to a single attached client
 		};
-	});	
+	});
 });
 
 app.listen(8081);

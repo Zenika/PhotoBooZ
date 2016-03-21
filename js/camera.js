@@ -71,7 +71,7 @@
 			context.drawImage(img, 0, 0, video.width, video.height);
 
 			var data = canvas.toDataURL('image/png');
-			fetch('http://localhost:8081/image', {
+			fetch('http://localhost:8081/images', {
 				method: 'post',
 				headers: {
 				    'Accept': 'application/json',
