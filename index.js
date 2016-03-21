@@ -5,7 +5,7 @@ var app = express();
 
 var clientId = 0;
 var clients = {};
-var images = fs.readdirSync('./public/pictures/');
+var images = fs.readdirSync('./public_slideshow/pictures/');
 
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -25,7 +25,8 @@ app.use(allowCrossDomain);
 app.use(bodyParser.json({limit: '10mb'}));
 
 
-app.use('/', express.static('public'));
+app.use('/', express.static('public_slideshow'));
+app.use('/camera', express.static('public_camera'));
 app.use('/jquery', express.static('node_modules/jquery/dist'));
 
 app.get('/stream', function(req, res) {
@@ -64,7 +65,7 @@ app.post('/images', function(req, res) {
 	req.body.image = req.body.image.replace(/^data:image\/\w+;base64,/, "");
 	req.body.image = req.body.image.replace(/ /g, '+');
 
-	fs.writeFile('./public/pictures/' + fileName, req.body.image, 'base64', function(err) {
+	fs.writeFile('./public_slideshow/pictures/' + fileName, req.body.image, 'base64', function(err) {
 		if (err) {
 			res.sendStatus(500);
 			return;
