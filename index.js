@@ -103,7 +103,7 @@ app.post('/tweet', function(req, res) {
           console.log(JSON.stringify(media));
 
           var status = {
-            status: atAccount+' : Voilà ta photo!',
+            status: atAccount+' : Voilà ta photo! #bzhcmp',
             media_ids: media.media_id_string,
             screen_name: account
           }
