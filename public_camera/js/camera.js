@@ -62,7 +62,7 @@
 
 		contextTransparent.putImageData(transparentBackgroundData, 0, 0);
 
-		writeLogoDisclaimer(contextTransparent, 10, 10, 'Les logos de technologies appartient à leurs propriétaires respectifs');
+		writeLogoDisclaimer(contextTransparent, 10, 10, 'Les logos appartiennent à leurs propriétaires respectifs');
 	}
 
 	function replaceColorByTransparent(source) {
