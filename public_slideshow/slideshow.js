@@ -51,7 +51,35 @@
 		}
 	}, false);
 
+	// Twitter button
+	var twitterAccount = document.getElementById("twitteraccount");
+	var twitterButton = document.getElementById("tweetthis");
+	var selectedPicture = document.getElementById("selectedPicture");
 
+	function tweet(event) {
+		event.preventDefault();
+		var account = twitterAccount.value;
+
+		twitterAccount.style.border = '';
+		if(account === null || account.trim() === "") {
+			twitterAccount.style.border = '1px solid red';
+		}
+
+		return fetch('/tweet', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json'},
+			body: JSON.stringify({account: account, url: selectedPicture.src})
+		}).then(function(response) {
+			if(!response.ok) throw response;
+		})
+		.catch(function(response) {
+			console.log(JSON.stringify(response));
+		});
+	}
+
+	twitterButton.addEventListener('click', tweet);
+
+	// fetch images
 	fetch('/images')
 	.then(function(response) {
 		return response.json();

@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.0",
-    "jquery": "^2.2.1"
+    "form-data": "^1.0.0-rc4",
+    "jquery": "^2.2.2",
+    "twitter": "^1.2.5"
   }
 }

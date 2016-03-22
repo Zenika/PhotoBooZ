@@ -81,4 +81,51 @@ app.post('/images', function(req, res) {
 	});
 });
 
+var Twitter = require('twitter');
+var twitterKeys = require('./twitterKeys');
+app.post('/tweet', function(req, res) {
+  console.log("received this : " + JSON.stringify(req.body));
+  var imageFile = req.body.url.substring(req.body.url.lastIndexOf('/')+1);
+  var account = req.body.account;
+  var atAccount = account.indexOf('@') !== 0 ? '@'+account : account;
+
+  var client = new Twitter(twitterKeys);
+  var data = fs.readFileSync('public_slideshow/pictures/'+imageFile);
+
+  client.get('users/show', {screen_name: account}, function(error, user, response) {
+
+    if(user.errors) {
+      res.sendStatus(500);
+    }
+    else {
+      client.post('media/upload', {media: data}, function(error, media, response) {
+        if(!error) {
+          console.log(JSON.stringify(media));
+
+          var status = {
+            status: atAccount+' : Voilà ta photo!',
+            media_ids: media.media_id_string,
+            screen_name: account
+          }
+
+          client.post('statuses/update', status, function(error, tweet, response) {
+            if(!error) {
+              console.log(tweet);
+              res.sendStatus(201)
+            }
+            else {
+              res.sendStatus(500);
+            }
+          })
+        }
+        else {
+          res.sendStatus(500);
+        }
+      });
+    }
+  });
+
+
+});
+
 app.listen(8081);
