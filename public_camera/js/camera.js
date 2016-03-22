@@ -24,6 +24,36 @@
 	    }, webcamError);
 	}
 
+	function writeLogoDisclaimer(ctx, x, y, text) {
+		var font = '12px Verdana';
+
+		/// lets save current state as we make a lot of changes
+    ctx.save();
+    /// set font
+    ctx.font = font;
+    /// draw text from top - makes life easier at the moment
+    ctx.textBaseline = 'top';
+
+    /// color for background
+    ctx.fillStyle = '#fff';
+
+    /// get width of text
+    var width = ctx.measureText(text).width;
+
+    /// draw background rect assuming height of font
+    ctx.fillRect(x, y, width+10, parseInt(font, 10)+10);
+		ctx.strokeRect(x, y, width+10, parseInt(font, 10)+10)
+
+    /// text color
+    ctx.fillStyle = '#000';
+
+    /// draw text on top
+    ctx.fillText(text, x+5, y+5);
+
+    /// restore original state
+    ctx.restore();
+	}
+
 	function writeSourceToCanvas() {
 		requestAnimationFrame(writeSourceToCanvas);
 
@@ -31,6 +61,8 @@
 		var transparentBackgroundData = replaceColorByTransparent(contextSource);
 
 		contextTransparent.putImageData(transparentBackgroundData, 0, 0);
+
+		writeLogoDisclaimer(contextTransparent, 10, 10, 'Les logos de technologies appartient à leurs propriétaires respectifs');
 	}
 
 	function replaceColorByTransparent(source) {
