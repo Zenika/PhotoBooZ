@@ -8,17 +8,17 @@ var clients = {};
 var images = fs.readdirSync('./public_slideshow/pictures/');
 
 var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-    // intercept OPTIONS method
-    if ('OPTIONS' == req.method) {
-      res.sendStatus(200);
-    }
-    else {
-      next();
-    }
+  // intercept OPTIONS method
+  if ('OPTIONS' == req.method) {
+    res.sendStatus(200);
+  }
+  else {
+    next();
+  }
 };
 
 app.use(allowCrossDomain);
@@ -30,16 +30,16 @@ app.use('/camera', express.static('public_camera'));
 app.use('/jquery', express.static('node_modules/jquery/dist'));
 
 app.get('/stream', function(req, res) {
-    res.writeHead(200, {
-    	'Content-Type': 'text/event-stream',  // <- Important headers
-    	'Cache-Control': 'no-cache',
-    	'Connection': 'keep-alive'
-    });
-    res.write('\n\n');
-    (function(clientId) {
-        clients[clientId] = res;  // <- Add this client to those we consider "attached"
-        req.on("close", function(){delete clients[clientId]});  // <- Remove this client when he disconnects
-    })(++clientId)
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',  // <- Important headers
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive'
+  });
+  res.write('\n\n');
+  (function(clientId) {
+    clients[clientId] = res;  // <- Add this client to those we consider "attached"
+    req.on("close", function(){delete clients[clientId]});  // <- Remove this client when he disconnects
+  })(++clientId)
 });
 
 app.get('/images', function(req, res) {
@@ -53,32 +53,32 @@ app.get('/images', function(req, res) {
 
 app.post('/images', function(req, res) {
 
-	if (!req.body.image) {
-		res.sendStatus(400);
-		return;
-	}
+  if (!req.body.image) {
+    res.sendStatus(400);
+    return;
+  }
 
-	var now = new Date();
-	var fileName = 'photo-' + now.getFullYear() + "-"+ now.getMonth() + "-" + now.getDate() + '-'
-		+ now.getHours() + '-' + now.getMinutes() + '-' + now.getSeconds() + '.png';
+  var now = new Date();
+  var fileName = 'photo-' + now.getFullYear() + "-"+ now.getMonth() + "-" + now.getDate() + '-'
+  + now.getHours() + '-' + now.getMinutes() + '-' + now.getSeconds() + '.png';
 
-	req.body.image = req.body.image.replace(/^data:image\/\w+;base64,/, "");
-	req.body.image = req.body.image.replace(/ /g, '+');
+  req.body.image = req.body.image.replace(/^data:image\/\w+;base64,/, "");
+  req.body.image = req.body.image.replace(/ /g, '+');
 
-	fs.writeFile('./public_slideshow/pictures/' + fileName, req.body.image, 'base64', function(err) {
-		if (err) {
-			res.sendStatus(500);
-			return;
-		}
+  fs.writeFile('./public_slideshow/pictures/' + fileName, req.body.image, 'base64', function(err) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
 
-		res.sendStatus(201);
+    res.sendStatus(201);
 
     images.push(fileName);
 
-		for (clientId in clients) {
-			clients[clientId].write('data: pictures/'+ fileName + "\n\n"); // <- Push a message to a single attached client
-		};
-	});
+    for (clientId in clients) {
+      clients[clientId].write('data: pictures/'+ fileName + "\n\n"); // <- Push a message to a single attached client
+    };
+  });
 });
 
 var Twitter = require('twitter');
@@ -94,7 +94,8 @@ app.post('/tweet', function(req, res) {
 
   client.get('users/show', {screen_name: account}, function(error, user, response) {
 
-    if(user.errors) {
+    if(error) {
+      console.log('Failed to retrieve user');
       res.sendStatus(500);
     }
     else {
@@ -114,11 +115,13 @@ app.post('/tweet', function(req, res) {
               res.sendStatus(201)
             }
             else {
+              console.log('failed to post status update');
               res.sendStatus(500);
             }
           })
         }
         else {
+          console.log('failed to upload media');
           res.sendStatus(500);
         }
       });

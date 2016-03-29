@@ -9,7 +9,7 @@
 <body>
 	<div class="container">
 		<div class="display">
-			<h1>InstaSnap</h1>
+			<h1>Zenimaton</h1>
 			<img id="selectedPicture" src="pictures/Zenika-Logo.png" />
 			<h2>by Zenika</h2>
 			<form><input type="text" id="twitteraccount" placeholder="Your twitter account"><button id="tweetthis">Tweet me this picture!</button></form>
@@ -23,5 +23,10 @@
 
 	<script src="jquery/jquery.min.js"></script>
 	<script type="text/javascript" src="slideshow.js"></script>
+	<script type="text/javascript">
+		setTimeout(function() {
+			window.location.reload();
+			}, 120000);
+	</script>
 </body>
 </html>
